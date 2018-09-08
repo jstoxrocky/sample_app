@@ -68,4 +68,4 @@ gem "rspec-rails", "3.8.0"
 
 gem "webrat"
 
-gem "capybara", "~> 3.7"
+gem "capybara", "3.7.1"
