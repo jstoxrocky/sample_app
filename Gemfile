@@ -71,3 +71,9 @@ gem "webrat"
 gem "capybara", "3.7.1"
 
 gem "annotate", "2.7.4"
+
+gem "factory_bot_rails", "4.11.1"
+
+gem "rails-controller-testing", "1.0.2"
+
+gem "gravatar_image_tag", "1.2.0"
