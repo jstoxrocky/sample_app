@@ -46,4 +46,66 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe "GET 'show'" do
+    it "should be successful" do
+      get :new
+      expect(response).to have_http_status(:success)
+    end
+
+    it "should have the right title" do
+      get :new
+      expect(response.body).to have_title("Sign Up")
+    end
+  end
+
+  describe "POST 'create'" do
+
+    describe "failure" do
+      before(:each) do
+        @attr = { :name => "", :email => "", :password => "",
+        :password_confirmation => "" }
+      end
+      
+      it "should not create a user" do
+        expect(lambda do
+          post :create, params: {:user => @attr}
+        end).to_not change(User, :count)
+      end
+      
+      it "should have the right title" do
+        post :create, params: {:user => @attr}
+        expect(response.body).to have_title("Sign Up")
+      end
+      
+      it "should render the 'new' page" do
+        post :create, params: {:user => @attr}
+        expect(response).to render_template('new')
+      end
+    end
+
+    describe "success" do
+
+      before(:each) do
+        @attr = { :name => "New User", :email => "user@example.com",
+          :password => "foobar", :password_confirmation => "foobar" }
+      end
+      
+      it "should create a user" do
+        expect(lambda do
+          post :create, params: {:user => @attr}
+        end).to change(User, :count).by(1)
+      end
+      
+      it "should redirect to the user show page" do
+        post :create, params: {:user => @attr}
+        expect(response).to redirect_to(user_path(assigns(:user)))
+      end
+
+      it "should have a welcome message" do
+        post :create, params: {:user => @attr}
+        expect(flash[:success]).to match(/welcome to the sample app/i)
+      end
+
+    end
+  end
 end
